@@ -1,0 +1,11 @@
+// sw.js
+const CACHE_NAME = 'bibleapp-v1';
+const urlsToCache = [
+    '/', 'index.html', 'css/style.css', 'js/app.js', 'js/bible-data.js'
+];
+
+self.addEventListener('install', event => {
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+    );
+});

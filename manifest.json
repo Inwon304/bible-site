@@ -1,0 +1,12 @@
+// manifest.json
+{
+  "name": "BibleApp",
+  "short_name": "BibleApp",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f4f0",
+  "theme_color": "#8b4513",
+  "icons": [
+    {"src": "data:image/svg+xml;base64,...", "sizes": "192x192", "type": "image/png"}
+  ]
+}
