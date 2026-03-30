@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Minimal Top Bar -->
+    <header class="top-bar">
+        <div class="container">
+            <div class="book-info">
+                <div class="bible-title">
+                    <svg class="cross-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m4.5 12.75 7.5-7.5 7.5 7.5"></path>
+                        <path d="m12 3v18"></path>
+                        <path d="m4.5 12.75h15"></path>
+                    </svg>
+                    <span id="bookTitle">Matthew</span>
+                </div>
+                <span id="chapterInfo">Chapter 5</span>
+            </div>
+            <div class="top-nav">
+                <select id="bookSelectTop"></select>
+                <select id="chapterSelectTop"></select>
+                <input type="number" id="verseInputTop" min="1" placeholder="Verse (Enter)" />
+            </div>
+            <div class="top-controls">
+                <button id="themeToggle" class="control-btn" title="Toggle Dark Mode">
+                    <svg id="sunIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="fontDecrease" class="control-btn" title="Decrease Font Size">A-</button>
+                <button id="fontIncrease" class="control-btn" title="Increase Font Size">A+</button>
+                <button id="searchToggle" class="control-btn" title="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+                <button id="bookmarkToggle" class="control-btn" title="Bookmarks">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path>
+                    </svg>
+                </button>
+                <button id="ttsToggle" class="control-btn" title="Text-to-Speech">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                </button>
+                <button id="shareToggle" class="control-btn" title="Share Verse">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                        <polyline points="16,6 12,2 8,6"></polyline>
+                        <line x1="12" y1="2" x2="12" y2="15"></line>
+                    </svg>
+                </button>
+                <a href="feedback.html" class="control-btn" title="Send Feedback">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bible Takes 90% Screen -->
+    <main class="bible-main">
+        <div class="bible-container" id="bibleContainer">
+            <!-- Bible content loads here -->
+        </div>
+        <div id="readingProgress" class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </main>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="overlay">
+        <div class="overlay-content search-overlay">
+            <div class="search-header">
+                <div class="search-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="search-input-container">
+                    <input type="text" id="searchInput" placeholder="Search verses, words, or phrases..." />
+                    <button type="button" class="search-clear-btn" id="searchClearBtn" title="Clear search">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <button id="searchClose" class="close-btn">&times;</button>
+            </div>
+            <div class="search-stats" id="searchStats"></div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Bookmarks Panel -->
+    <div id="bookmarkPanel" class="overlay">
+        <div class="overlay-content bookmark-overlay">
+            <div class="bookmark-header">
+                <div class="bookmark-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path>
+                    </svg>
+                </div>
+                <h3>Your Bookmarks</h3>
+                <button id="bookmarkClose" class="close-btn">&times;</button>
+            </div>
+            <div class="bookmark-stats" id="bookmarkStats"></div>
+            <div id="bookmarkList" class="bookmark-list"></div>
+        </div>
+    </div>
+
+    <script src="bible-data-transformed.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Bible</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .feedback-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .feedback-header h1 {
+            font-size: var(--font-size-3xl);
+            color: var(--text-bible);
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
+        }
+
+        .feedback-header p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-normal);
+        }
+
+        .feedback-form {
+            background: var(--bible-glass);
+            border: 1px solid var(--bible-glass-border);
+            backdrop-filter: var(--glass-blur);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-bible);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--accent-brown);
+            border-radius: var(--border-radius-md);
+            font-family: 'Georgia', serif;
+            font-size: var(--font-size-base);
+            color: var(--text-bible);
+            background: rgba(255, 255, 255, 0.8);
+            transition: all var(--transition-normal);
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group textarea {
+            background: rgba(26, 13, 0, 0.5);
+            color: var(--text-bible);
+            border-color: var(--accent-brown-light);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--christ-red);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-normal);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-2xl);
+        }
+
+        .btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-family: 'Georgia', serif;
+        }
+
+        .btn-submit {
+            background: var(--christ-red);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-cancel {
+            background: var(--bible-glass);
+            color: var(--text-bible);
+            border: 1px solid var(--accent-brown);
+            flex: 1;
+        }
+
+        .btn-cancel:hover {
+            background: var(--accent-brown);
+            color: white;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-lg);
+            color: var(--accent-brown);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .back-link:hover {
+            color: var(--christ-red);
+        }
+
+        .success-message {
+            background: var(--success-green);
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-lg);
+            display: none;
+            text-align: center;
+        }
+
+        .error-message {
+            background: var(--christ-red);
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-lg);
+            display: none;
+            text-align: center;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 640px) {
+            .feedback-container {
+                padding: var(--spacing-md);
+            }
+
+            .feedback-form {
+                padding: var(--spacing-lg);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Minimal Top Bar -->
+    <header class="top-bar">
+        <div class="container">
+            <div class="book-info">
+                <div class="bible-title">
+                    <svg class="cross-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m4.5 12.75 7.5-7.5 7.5 7.5"></path>
+                        <path d="m12 3v18"></path>
+                        <path d="m4.5 12.75h15"></path>
+                    </svg>
+                    <span>Feedback</span>
+                </div>
+            </div>
+            <div class="top-controls">
+                <button id="themeToggle" class="control-btn" title="Toggle Dark Mode">
+                    <svg id="sunIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="bible-main">
+        <div class="feedback-container">
+            <a href="index.html" class="back-link">← Back to Bible</a>
+            
+            <div class="feedback-header">
+                <h1>Send us Feedback</h1>
+                <p>We'd love to hear from you! Share your thoughts, suggestions, or report any issues.</p>
+            </div>
+
+            <div class="feedback-form">
+                <div id="successMessage" class="success-message">
+                    Thank you for your feedback! We'll review it shortly.
+                </div>
+                <div id="errorMessage" class="error-message">
+                    Something went wrong. Please try again or contact us directly.
+                </div>
+
+                <form id="feedbackForm" action="https://formsubmit.co/inwoninwonurang@gmail.com" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required placeholder="What is this about?">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Please share your feedback..."></textarea>
+                    </div>
+
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" id="redirectUrl" name="_next" value="">
+                    <input type="hidden" name="_honeypot" value="">
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-submit">Send Feedback</button>
+                        <button type="reset" class="btn btn-cancel">Clear</button>
+                    </div>
+
+                    <div class="loading" id="loading">Sending...</div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+
+        function loadTheme() {
+            const theme = localStorage.getItem('bibleTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
+        }
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('bibleTheme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        loadTheme();
+
+        // Set redirect URL dynamically
+        const redirectUrl = document.getElementById('redirectUrl');
+        redirectUrl.value = window.location.href.split('?')[0] + '?success=true';
+
+        // Add form submission handler
+        const feedbackForm = document.getElementById('feedbackForm');
+        let formSubmitted = false;
+
+        feedbackForm.addEventListener('submit', () => {
+            formSubmitted = true;
+        });
+
+        // Check for success message in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success')) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            // Clear the URL parameter
+            window.history.replaceState({}, document.title, 'feedback.html');
+            // Reset form
+            feedbackForm.reset();
+        }
+    </script>
+</body>
+</html>
