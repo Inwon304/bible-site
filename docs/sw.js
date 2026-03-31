@@ -1,7 +1,7 @@
 // sw.js
 const CACHE_NAME = 'bibleapp-v1';
 const urlsToCache = [
-    '/', 'index.html', 'css/style.css', 'js/app.js', 'js/bible-data.js'
+    '/', 'index.html', 'css/style.css', 'js/app.js', 'bible-data-transformed.js', 'favicon.ico'
 ];
 
 self.addEventListener('install', event => {
