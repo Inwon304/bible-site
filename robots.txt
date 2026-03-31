@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://inwon304.github.io/sitemap.xml
