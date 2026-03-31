@@ -1,7 +1,7 @@
 class BibleApp {
     constructor() {
-        this.currentBook = 40; // Matthew
-        this.currentChapter = 5;
+        this.currentBook = 1; // Genesis
+        this.currentChapter = 1;
         this.currentVerse = 1;
         this.fontSize = 'medium'; // small, medium, large
         this.theme = 'light'; // light, dark
