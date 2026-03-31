@@ -1,0 +1,1865 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bible-bg: #fdf8f3;
+    --bible-glass: rgba(255,255,255,0.12);
+    --bible-glass-border: rgba(255,255,255,0.08);
+    --bible-glass-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    --text-bible: #1a0d00;
+    --text-secondary: #5a4a3a;
+    --accent-brown: #7a4a2e;
+    --accent-brown-light: #8b5a3c;
+    --christ-red: #c41e3a;
+    --success-green: #2d5a2d;
+    --shadow-soft: 0 2px 8px rgba(122,74,46,0.08);
+    --shadow-medium: 0 4px 16px rgba(122,74,46,0.12);
+    --shadow-large: 0 8px 32px rgba(122,74,46,0.16);
+    --glass-blur: blur(6px);
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 20px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    --bible-bg: #0f0804;
+    --bible-glass: rgba(26,13,0,0.12);
+    --bible-glass-border: rgba(255,255,255,0.06);
+    --bible-glass-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    --text-bible: #f4e9d8;
+    --text-secondary: #c4b5a5;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: var(--bible-bg);
+    color: var(--text-bible);
+    height: 100vh;
+    overflow: hidden;
+    line-height: var(--line-height-normal);
+    font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Top Bar - Enhanced */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--bible-glass-border);
+    box-shadow: var(--bible-glass-shadow);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    transition: var(--transition-normal);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--spacing-lg);
+}
+
+.book-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    flex-shrink: 0;
+}
+
+#bookTitle {
+    font-weight: 600;
+    font-size: var(--font-size-xl);
+    color: var(--accent-brown);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--spacing-xs);
+}
+
+#chapterInfo {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.bible-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.cross-icon {
+    color: var(--accent-brown);
+    flex-shrink: 0;
+    opacity: 0.8;
+    transition: var(--transition-normal);
+}
+
+.cross-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Bible Main Content */
+.bible-main {
+    height: calc(100vh - 64px);
+    margin-top: 64px;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-brown) transparent;
+}
+
+.bible-main::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bible-main::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.bible-main::-webkit-scrollbar-thumb {
+    background: var(--accent-brown);
+    border-radius: 3px;
+}
+
+.bible-main::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-brown-light);
+}
+
+.bible-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Bible Header - Enhanced */
+.bible-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--bible-glass-border);
+    box-shadow: var(--bible-glass-shadow);
+    position: relative;
+    transition: var(--transition-normal);
+}
+
+.bible-header:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.bible-header h1 {
+    font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    color: var(--accent-brown);
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.02em;
+}
+
+.verse-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.verse-column h2 {
+    font-size: var(--font-size-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    position: relative;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+}
+
+.verse-column h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-brown), transparent);
+    border-radius: 1px;
+}
+
+/* Verse Cards - Enhanced */
+.verse {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--bible-glass-border);
+    border-left: 4px solid rgba(122,74,46,0.15);
+    box-shadow: var(--bible-glass-shadow);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.verse::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-brown), transparent);
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.verse:hover {
+    border-left-color: var(--accent-brown);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: var(--shadow-medium);
+    background: rgba(255,255,255,0.18);
+}
+
+.verse:hover::before {
+    opacity: 1;
+}
+
+.verse:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-fast);
+}
+
+.verse.selected {
+    border-left-color: var(--accent-brown);
+    background: linear-gradient(135deg, rgba(122,74,46,0.08), rgba(196,30,58,0.03));
+    box-shadow: var(--shadow-medium);
+}
+
+.verse-number {
+    position: absolute;
+    right: var(--spacing-md);
+    top: var(--spacing-lg);
+    font-weight: 600;
+    color: var(--accent-brown);
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--bible-glass-border);
+    box-shadow: var(--bible-glass-shadow);
+    min-width: 32px;
+    text-align: center;
+}
+
+.verse-text {
+    padding-right: 4rem;
+    line-height: var(--line-height-relaxed);
+    font-size: var(--font-size-lg);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+.christ-words {
+    color: var(--christ-red) !important;
+    font-style: italic;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(196,30,58,0.12), rgba(196,30,58,0.06));
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+    display: inline-block;
+    margin: var(--spacing-xs) 0;
+    box-shadow: 0 2px 8px rgba(196,30,58,0.15);
+    border: 1px solid rgba(196,30,58,0.1);
+    position: relative;
+    transition: var(--transition-normal);
+}
+
+.christ-words:hover {
+    background: linear-gradient(135deg, rgba(196,30,58,0.18), rgba(196,30,58,0.12));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196,30,58,0.2);
+}
+
+.top-nav {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 400px;
+    flex: 1;
+}
+
+.top-nav select,
+.top-nav input[type="number"] {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--bible-glass-border);
+    border-radius: var(--border-radius-md);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--bible-glass-shadow);
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    color: var(--text-bible);
+    transition: var(--transition-normal);
+    min-height: 40px;
+}
+
+.top-nav select:hover,
+.top-nav input[type="number"]:hover {
+    border-color: var(--accent-brown);
+    background: rgba(255,255,255,0.18);
+}
+
+.top-nav select:focus,
+.top-nav input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-brown);
+    box-shadow: 0 0 0 3px rgba(122,74,46,0.1);
+}
+
+.top-nav select {
+    min-width: 120px;
+    cursor: pointer;
+}
+
+.top-nav input[type="number"] {
+    width: 80px;
+    text-align: center;
+}
+
+.nav-row, .slider-row, .toggle-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+select, input[type="range"] {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid rgba(122,74,46,0.3);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.7);
+    font-family: inherit;
+}
+
+#brainrotSlider {
+    flex: 2;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .bible-container {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .verse-grid {
+        gap: var(--spacing-xl);
+    }
+
+    .bible-main {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .verse {
+        padding: var(--spacing-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        height: 56px;
+    }
+
+    .bible-main {
+        height: calc(100vh - 56px);
+        margin-top: 56px;
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .container {
+        padding: 0 var(--spacing-sm);
+        flex-direction: column;
+        gap: var(--spacing-md);
+        height: auto;
+        align-items: stretch;
+    }
+
+    .book-info {
+        text-align: center;
+        order: -1;
+    }
+
+    #bookTitle {
+        font-size: var(--font-size-lg);
+    }
+
+    #chapterInfo {
+        font-size: var(--font-size-sm);
+    }
+
+    .top-nav {
+        max-width: 100%;
+        width: 100%;
+        order: 1;
+        justify-content: space-between;
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        flex: 1;
+        min-width: 0;
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-sm);
+    }
+
+    .top-controls {
+        order: 2;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .bible-header {
+        margin-bottom: var(--spacing-xl);
+        padding: var(--spacing-lg);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-2xl), 6vw, var(--font-size-4xl));
+    }
+
+    .verse-column h2 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .verse {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-relaxed);
+    }
+
+    .verse-number {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-width: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .bible-main {
+        padding: var(--spacing-md) var(--spacing-xs);
+    }
+
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+
+    .top-nav {
+        gap: var(--spacing-xs);
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-sm) var(--spacing-sm);
+        min-height: 36px;
+    }
+
+    .top-controls {
+        gap: var(--spacing-xs);
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        padding: var(--spacing-sm);
+    }
+
+    .control-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .bible-header {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-xl), 8vw, var(--font-size-3xl));
+    }
+
+    .verse {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-sm);
+        padding-right: 3rem;
+    }
+
+    .verse-number {
+        right: var(--spacing-sm);
+        top: var(--spacing-sm);
+        font-size: var(--font-size-xs);
+        padding: 2px var(--spacing-xs);
+        min-width: 24px;
+    }
+
+    .christ-words {
+        padding: 2px var(--spacing-xs);
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar {
+        height: 52px;
+    }
+
+    .bible-main {
+        height: calc(100vh - 52px);
+        margin-top: 52px;
+        padding: var(--spacing-sm) var(--spacing-xs);
+    }
+
+    .container {
+        gap: var(--spacing-sm);
+    }
+
+    .book-info {
+        margin-bottom: 0;
+    }
+
+    #bookTitle {
+        font-size: var(--font-size-base);
+        margin-bottom: 2px;
+    }
+
+    #chapterInfo {
+        font-size: var(--font-size-xs);
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-height: 32px;
+    }
+
+    .top-controls {
+        gap: var(--spacing-xs);
+        justify-content: space-around;
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .control-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .bible-header {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        border-radius: var(--border-radius-md);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-lg), 10vw, var(--font-size-2xl));
+    }
+
+    .verse-grid {
+        gap: var(--spacing-lg);
+    }
+
+    .verse-column h2 {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .verse {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-sm);
+        line-height: var(--line-height-normal);
+        padding-right: 2.5rem;
+    }
+
+    .verse-number {
+        right: var(--spacing-xs);
+        top: var(--spacing-xs);
+        font-size: 10px;
+        padding: 1px var(--spacing-xs);
+        min-width: 20px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .verse,
+    .bible-header,
+    .control-btn,
+    .top-nav select,
+    .top-nav input[type="number"] {
+        border-width: 0.5px;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .top-bar,
+    .top-controls,
+    .progress-bar {
+        display: none !important;
+    }
+
+    .bible-main {
+        height: auto !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+    }
+
+    .verse {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        background: white !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        margin-bottom: 1rem;
+    }
+
+    .verse-number {
+        background: white !important;
+        border: 1px solid #ccc !important;
+    }
+}
+
+/* Top Controls */
+.top-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.control-btn {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--bible-glass-border);
+    border-radius: var(--border-radius-md);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--bible-glass-shadow);
+    color: var(--text-bible);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: var(--transition-normal);
+}
+
+.control-btn:hover::before {
+    width: 120%;
+    height: 120%;
+}
+
+.control-btn:hover {
+    border-color: var(--accent-brown);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+    transition: var(--transition-fast);
+}
+
+.control-btn.active {
+    background: var(--accent-brown);
+    color: white;
+    border-color: var(--accent-brown);
+    box-shadow: 0 4px 16px rgba(122,74,46,0.3);
+}
+
+.control-btn.active::before {
+    background: rgba(255,255,255,0.1);
+}
+
+.control-btn svg {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition-normal);
+}
+
+.control-btn.active svg {
+    filter: brightness(0) invert(1);
+}
+}
+
+/* Progress Bar */
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-top: 1px solid var(--bible-glass-border);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+    z-index: 50;
+/* Progress Bar */
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-top: 1px solid var(--bible-glass-border);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+    z-index: 50;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-brown), var(--accent-brown-light));
+    width: 0%;
+    transition: var(--transition-slow);
+    border-radius: 0 2px 2px 0;
+}
+
+/* Enhanced Overlays */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+    padding: var(--spacing-md);
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.overlay-content {
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--bible-glass-border);
+    box-shadow: var(--shadow-large);
+    padding: var(--spacing-2xl);
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.95) translateY(20px);
+    transition: var(--transition-normal);
+    animation: overlaySlideIn 0.3s ease-out forwards;
+}
+
+.overlay.show .overlay-content {
+    transform: scale(1) translateY(0);
+}
+
+@keyframes overlaySlideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.close-btn {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--bible-glass-border);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--bible-glass-shadow);
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    color: var(--text-bible);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+    z-index: 10;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Search Overlay Styles */
+.search-overlay {
+    max-width: 650px;
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--bible-glass-border);
+}
+
+.search-icon {
+    color: var(--accent-brown);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(122,74,46,0.1), rgba(122,74,46,0.05));
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(122,74,46,0.2);
+}
+
+.search-stats {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(122,74,46,0.05);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(122,74,46,0.1);
+}
+
+/* Enhanced Search Input */
+#searchInput {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 2px solid var(--bible-glass-border);
+    border-radius: var(--border-radius-lg);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--bible-glass-shadow);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    color: var(--text-bible);
+    transition: var(--transition-normal);
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: var(--accent-brown);
+    box-shadow: 0 0 0 3px rgba(122,74,46,0.15), var(--bible-glass-shadow);
+    background: rgba(255,255,255,0.18);
+    transform: translateY(-1px);
+}
+
+#searchInput::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.search-input-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-container #searchInput {
+    width: 100%;
+    padding-right: 40px; /* Space for clear button */
+}
+
+/* Clear button inside search input */
+.search-clear-btn {
+    position: absolute;
+    right: var(--spacing-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
+    display: none;
+    transition: var(--transition-normal);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-clear-btn:hover {
+    background: rgba(122,74,46,0.1);
+    color: var(--accent-brown);
+}
+
+.search-input-container.has-content .search-clear-btn {
+    display: flex;
+}
+
+/* Enhanced Search Results */
+.search-results {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-brown) transparent;
+}
+
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--accent-brown);
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: rgba(122,74,46,0.1);
+    border-radius: 3px;
+}
+
+.search-result {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--bible-glass-border);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-sm);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--bible-glass-shadow);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.search-result:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--shadow-medium);
+    border-color: rgba(122,74,46,0.2);
+}
+
+.search-result strong {
+    color: var(--accent-brown);
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-brown), var(--accent-brown-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.search-result .verse-ref {
+    font-weight: 600;
+    color: var(--accent-brown);
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+}
+
+.search-result .verse-text {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    margin-top: var(--spacing-sm);
+}
+
+/* Bookmark Overlay Styles */
+.bookmark-overlay {
+    max-width: 700px;
+}
+
+.bookmark-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--bible-glass-border);
+}
+
+.bookmark-icon {
+    color: var(--accent-brown);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(122,74,46,0.1), rgba(122,74,46,0.05));
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(122,74,46,0.2);
+}
+
+.bookmark-header h3 {
+    margin: 0;
+    color: var(--text-bible);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    flex: 1;
+}
+
+.bookmark-stats {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(122,74,46,0.05);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(122,74,46,0.1);
+}
+
+/* Enhanced Bookmark Items */
+.bookmark-list {
+    max-height: 450px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-brown) transparent;
+}
+
+.bookmark-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bookmark-list::-webkit-scrollbar-thumb {
+    background: var(--accent-brown);
+    border-radius: 3px;
+}
+
+.bookmark-list::-webkit-scrollbar-track {
+    background: rgba(122,74,46,0.1);
+    border-radius: 3px;
+}
+
+.bookmark-item {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--bible-glass-border);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-md);
+    background: var(--bible-glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--bible-glass-shadow);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.bookmark-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.bookmark-item:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--shadow-medium);
+    border-color: rgba(122,74,46,0.2);
+}
+
+.bookmark-item .verse-ref {
+    font-weight: 600;
+    color: var(--accent-brown);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.bookmark-item .verse-ref::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--accent-brown);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.bookmark-item .verse-text {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Empty States */
+.search-no-results,
+.bookmark-empty {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-lg);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.search-no-results svg,
+.bookmark-empty svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+    color: var(--accent-brown);
+}
+
+/* Highlighted and Bookmarked Verses */
+.verse.highlighted {
+    background: linear-gradient(135deg, rgba(196,30,58,0.08), rgba(122,74,46,0.04));
+    border-left-color: var(--christ-red);
+    box-shadow: 0 4px 16px rgba(196,30,58,0.1);
+}
+
+.verse.bookmarked {
+    border-left-color: var(--accent-brown);
+    background: linear-gradient(135deg, rgba(122,74,46,0.08), rgba(196,30,58,0.02));
+    box-shadow: 0 4px 16px rgba(122,74,46,0.1);
+}
+
+.verse.selected {
+    border-left-color: var(--accent-brown);
+    background: linear-gradient(135deg, rgba(122,74,46,0.1), rgba(196,30,58,0.03));
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-1px);
+}
+
+/* Font Size Controls */
+[data-font-size="small"] .verse-text { font-size: var(--font-size-sm); }
+[data-font-size="medium"] .verse-text { font-size: var(--font-size-base); }
+[data-font-size="large"] .verse-text { font-size: var(--font-size-lg); }
+
+/* Loading States */
+.verse.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.verse.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-brown);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Focus States for Accessibility */
+.verse:focus,
+.control-btn:focus,
+.top-nav select:focus,
+.top-nav input:focus {
+    outline: 2px solid var(--accent-brown);
+    outline-offset: 2px;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .verse::before {
+    background: linear-gradient(90deg, var(--accent-brown), transparent);
+}
+
+[data-theme="dark"] .progress-fill {
+    background: linear-gradient(90deg, var(--accent-brown-light), var(--accent-brown));
+}
+
+/* Responsive for controls */
+@media (max-width: 768px) {
+    .top-controls {
+        order: -1;
+        width: 100%;
+        justify-content: center;
+        gap: 0.3rem;
+    }
+
+    .control-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .control-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Enhanced Responsive Design for Overlays */
+@media (max-width: 768px) {
+    .overlay {
+        padding: var(--spacing-sm);
+        align-items: flex-start;
+        padding-top: var(--spacing-xl);
+    }
+
+    .overlay-content {
+        max-width: 95vw;
+        width: 95vw;
+        max-height: 80vh;
+        padding: var(--spacing-lg);
+        margin-top: var(--spacing-xl);
+    }
+
+    .search-overlay,
+    .bookmark-overlay {
+        max-width: 95vw;
+    }
+
+    .search-header,
+    .bookmark-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+        padding-bottom: var(--spacing-md);
+    }
+
+    .search-icon,
+    .bookmark-icon {
+        align-self: center;
+    }
+
+    .bookmark-header h3 {
+        text-align: center;
+        width: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .close-btn {
+        position: static;
+        align-self: flex-end;
+        margin-top: var(--spacing-sm);
+    }
+
+    #searchInput {
+        width: 100%;
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .search-results,
+    .bookmark-list {
+        max-height: 300px;
+    }
+
+    .search-result,
+    .bookmark-item {
+        padding: var(--spacing-md);
+    }
+
+    .search-result .verse-text,
+    .bookmark-item .verse-text {
+        font-size: var(--font-size-xs);
+        -webkit-line-clamp: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay {
+        padding: var(--spacing-xs);
+        padding-top: var(--spacing-lg);
+    }
+
+    .overlay-content {
+        max-width: 98vw;
+        width: 98vw;
+        padding: var(--spacing-md);
+        max-height: 85vh;
+    }
+
+    .search-header,
+    .bookmark-header {
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .search-icon,
+    .bookmark-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .search-icon svg,
+    .bookmark-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .bookmark-header h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    #searchInput {
+        padding: var(--spacing-sm);
+        font-size: var(--font-size-sm);
+    }
+
+    .search-stats,
+    .bookmark-stats {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .search-results,
+    .bookmark-list {
+        max-height: 250px;
+    }
+
+    .search-result,
+    .bookmark-item {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .search-result .verse-ref,
+    .bookmark-item .verse-ref {
+        font-size: var(--font-size-xs);
+    }
+
+    .search-result .verse-text,
+    .bookmark-item .verse-text {
+        font-size: var(--font-size-xs);
+        margin-top: var(--spacing-xs);
+    }
+
+    .search-no-results,
+    .bookmark-empty {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .search-no-results svg,
+    .bookmark-empty svg {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Enhanced Responsive Design for Main Layout */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .bible-container {
+        max-width: 800px;
+    }
+
+    .overlay-content {
+        max-width: 550px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .verse-grid {
+        gap: var(--spacing-xl);
+    }
+
+    .bible-main {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .verse {
+        padding: var(--spacing-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-base);
+    }
+
+    .overlay-content {
+        max-width: 500px;
+        padding: var(--spacing-xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        height: 56px;
+    }
+
+    .bible-main {
+        height: calc(100vh - 56px);
+        margin-top: 56px;
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .container {
+        padding: 0 var(--spacing-sm);
+        flex-direction: column;
+        gap: var(--spacing-md);
+        height: auto;
+        align-items: stretch;
+    }
+
+    .book-info {
+        text-align: center;
+        order: -1;
+    }
+
+    #bookTitle {
+        font-size: var(--font-size-lg);
+    }
+
+    #chapterInfo {
+        font-size: var(--font-size-sm);
+    }
+
+    .top-nav {
+        max-width: 100%;
+        width: 100%;
+        order: 1;
+        justify-content: space-between;
+        gap: var(--spacing-sm);
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        flex: 1;
+        min-width: 0;
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-sm);
+        height: 40px;
+    }
+
+    .top-controls {
+        order: 2;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        padding: var(--spacing-sm);
+    }
+
+    .control-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .bible-header {
+        margin-bottom: var(--spacing-xl);
+        padding: var(--spacing-lg);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-2xl), 6vw, var(--font-size-4xl));
+    }
+
+    .verse-column h2 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .verse {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-relaxed);
+    }
+
+    .verse-number {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-width: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .bible-main {
+        padding: var(--spacing-md) var(--spacing-xs);
+    }
+
+    .container {
+        padding: 0 var(--spacing-xs);
+    }
+
+    .top-nav {
+        gap: var(--spacing-xs);
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-sm) var(--spacing-sm);
+        min-height: 36px;
+    }
+
+    .top-controls {
+        gap: var(--spacing-xs);
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        padding: var(--spacing-sm);
+    }
+
+    .control-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .bible-header {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-xl), 8vw, var(--font-size-3xl));
+    }
+
+    .verse {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-sm);
+        padding-right: 3rem;
+    }
+
+    .verse-number {
+        right: var(--spacing-sm);
+        top: var(--spacing-sm);
+        font-size: var(--font-size-xs);
+        padding: 2px var(--spacing-xs);
+        min-width: 24px;
+    }
+
+    .christ-words {
+        padding: 2px var(--spacing-xs);
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar {
+        height: 52px;
+    }
+
+    .bible-main {
+        height: calc(100vh - 52px);
+        margin-top: 52px;
+        padding: var(--spacing-sm) var(--spacing-xs);
+    }
+
+    .container {
+        gap: var(--spacing-sm);
+    }
+
+    .book-info {
+        margin-bottom: 0;
+    }
+
+    #bookTitle {
+        font-size: var(--font-size-base);
+        margin-bottom: 2px;
+    }
+
+    #chapterInfo {
+        font-size: var(--font-size-xs);
+    }
+
+    .top-nav select,
+    .top-nav input[type="number"] {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-height: 32px;
+    }
+
+    .top-controls {
+        gap: var(--spacing-xs);
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+        padding: var(--spacing-xs);
+    }
+
+    .control-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .bible-header {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .bible-header h1 {
+        font-size: clamp(var(--font-size-lg), 10vw, var(--font-size-2xl));
+    }
+
+    .verse {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+    }
+
+    .verse-text {
+        font-size: var(--font-size-sm);
+        line-height: var(--line-height-normal);
+        padding-right: 2.5rem;
+    }
+
+    .verse-number {
+        right: var(--spacing-xs);
+        top: var(--spacing-xs);
+        font-size: 10px;
+        padding: 1px var(--spacing-xs);
+        min-width: 20px;
+        height: 20px;
+    }
+
+    .christ-words {
+        padding: 1px var(--spacing-xs);
+        font-size: 0.8em;
+        border-radius: 2px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        font-family: 'Times New Roman', serif;
+    }
+
+    .top-nav,
+    .top-controls,
+    .progress-bar,
+    .overlay,
+    .control-btn {
+        display: none !important;
+    }
+
+    .verse {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        margin-bottom: 1rem;
+    }
+
+    .verse-number {
+        font-weight: bold;
+        color: black !important;
+    }
+
+    .verse-text {
+        line-height: 1.6;
+        color: black !important;
+    }
+
+    .christ-word {
+        font-weight: bold;
+        color: black !important;
+        text-decoration: underline;
+    }
+
+    .chapter-title {
+        page-break-after: avoid;
+        text-align: center;
+        font-size: 1.5rem;
+        margin: 2rem 0;
+        color: black !important;
+    }
+}
+
+/* High DPI Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .verse::before {
+        background-size: 200% 100%;
+    }
+
+    .control-btn svg {
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .verse.loading::after {
+        animation: none;
+    }
+}
+
+/* Dark Mode Media Query */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2a2a2a;
+        --text-bible: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --bible-glass: rgba(42,42,42,0.8);
+        --bible-glass-border: rgba(255,255,255,0.1);
+        --bible-glass-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+}

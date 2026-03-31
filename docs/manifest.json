@@ -2,7 +2,7 @@
 {
   "name": "BibleApp",
   "short_name": "BibleApp",
-  "start_url": "/bible-site/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#f8f4f0",
   "theme_color": "#8b4513",
