@@ -62,35 +62,9 @@ class BibleApp {
         document.getElementById('themeToggle').onclick = () => this.toggleTheme();
         document.getElementById('fontDecrease').onclick = () => this.changeFontSize('decrease');
         document.getElementById('fontIncrease').onclick = () => this.changeFontSize('increase');
-        document.getElementById('searchToggle').onclick = () => this.toggleSearch();
         document.getElementById('bookmarkToggle').onclick = () => this.toggleBookmarks();
         document.getElementById('ttsToggle').onclick = () => this.toggleTTS();
         document.getElementById('shareToggle').onclick = () => this.shareVerse();
-
-        // Search
-        document.getElementById('searchInput').oninput = (e) => {
-            this.performSearch(e.target.value);
-            this.updateSearchClearButton(e.target.value);
-        };
-        document.getElementById('searchClearBtn').onclick = () => this.clearSearch();
-        document.getElementById('searchClose').onclick = () => this.closeSearch();
-
-        // Bookmarks
-        document.getElementById('bookmarkClose').onclick = () => this.closeBookmarks();
-
-        // Verse interactions
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.verse')) {
-                const verse = e.target.closest('.verse');
-                if (e.ctrlKey || e.metaKey) {
-                    this.toggleHighlight(verse);
-                } else if (e.shiftKey) {
-                    this.toggleBookmark(verse);
-                } else {
-                    this.selectVerse(verse);
-                }
-            }
-        });
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeydown(e));
@@ -126,7 +100,6 @@ class BibleApp {
             case 'f':
                 if (e.ctrlKey || e.metaKey) {
                     e.preventDefault();
-                    this.toggleSearch();
                 }
                 break;
             case 'b':
@@ -464,6 +437,9 @@ class BibleApp {
     }
 
     async loadChapter() {
+        const loader = document.getElementById('loadingIndicator');
+        loader.classList.add('active');
+
         const key = `${this.currentBook}-${this.currentChapter}`;
         const verses = BIBLE_DATA.chapters[key] || [];
 
@@ -472,6 +448,8 @@ class BibleApp {
         document.getElementById('chapterInfo').textContent = `Chapter ${this.currentChapter}`;
         this.applyHighlightsAndBookmarks();
         this.updateProgress();
+
+        loader.classList.remove('active');
     }
 
     renderChapter(verses) {
